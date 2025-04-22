@@ -4,8 +4,8 @@ from openai import OpenAI
 # Show title and description.
 st.title("💬 Chatbot")
 st.write(
-    "This is a simple chatbot that uses OpenAI's GPT-3.5 model to generate responses. "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
+    "This is a honest, helpful, harmless, simple chatbot that uses Anthropic model to generate alignment and safety responses. "
+    "To use this app, you need to provide an Anthropic API key, which you can get [here](https://platform.openai.com/account/api-keys). "
     "You can also learn how to build this app step by step by [following our tutorial](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)."
 )
 
@@ -18,7 +18,10 @@ if not openai_api_key:
 else:
 
     # Create an OpenAI client.
-    client = OpenAI(api_key=openai_api_key)
+    client = OpenAI(
+    api_key="ANTHROPIC_API_KEY",  # Your Anthropic API key
+    base_url="https://api.anthropic.com/v1/"  # Anthropic's API endpoint
+    )
 
     # Create a session state variable to store the chat messages. This ensures that the
     # messages persist across reruns.
@@ -41,7 +44,7 @@ else:
 
         # Generate a response using the OpenAI API.
         stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="claude-3-7-sonnet-latest",
             messages=[
                 {"role": m["role"], "content": m["content"]}
                 for m in st.session_state.messages
